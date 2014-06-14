@@ -53,7 +53,6 @@ def update_counts():
     with db:
         with open('schema.sql') as f:
             db.cursor().executescript(f.read())
-
         for poster in get_top(n=50):
             poster_data = (poster[0], poster[1]['count'])
             db.execute('insert into posters values (null, ?, ?)', poster_data)
