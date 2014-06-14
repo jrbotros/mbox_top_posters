@@ -1,6 +1,7 @@
 from dateutil.parser import parse
 from datetime import datetime
 import re
+import sqlite3
 
 def post_counts(start_date, end_date):
     # only includes posts with an email in header
@@ -45,3 +46,11 @@ def get_top(start_date=datetime.min, end_date=datetime.now(), n=None):
     counts = post_counts(start_date, end_date)
     counts = sorted(counts.items(), key=lambda x: x[1]['count'], reverse=True)
     return counts[:n]
+
+def update_counts():
+    db = sqlite3.connect('top_posters.db')
+    db.row_factory = sqlite3.Row
+    with db:
+        for poster in get_top(50):
+            poster_data = (poster[0], poster[1]['count'])
+            db.execute('insert into posters values (null, ?, ?)', poster_data)
