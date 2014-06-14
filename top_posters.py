@@ -75,3 +75,6 @@ def update_counts():
                 poster_data = (poster[0], poster[1]['count'])
                 query = 'insert into ' + table_name + ' values (null, ?, ?)'
                 db.execute(query, poster_data)
+
+if __name__ == '__main__':
+    update_counts()
