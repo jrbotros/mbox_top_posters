@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A ranking of Mather House's finest inhabitants.">
+    <meta name="author" content="Joseph Botros">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Mather-Open Top Posters</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3>Mather-Open Top Posters</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="nav nav-tabs">
+            {% set navigation_bar = [
+                ('/month', 'month', 'Month'),
+                ('/semester/', 'semester', 'Semester'),
+                ('/year/', 'year', 'Year'),
+                ('/all/', 'all', 'All Time')
+            ] %}
+
+            {% set active_page = active_page|default('month') %}
+
+            {% for href, id, caption in navigation_bar %}
+              <li{% if id == active_page %} class="active"{% endif
+              %}><a href="{{ href }}">{{ caption }}</a></li>
+            {% endfor %}       
+          </ul>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for poster in posters %}
+                <tr>
+                    <td>{{ poster.id }}</td>
+                    <td>{{ poster.name }}</td>
+                    <td>{{ poster.count }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tab.js') }}"></script>
+  </body>
+</html>

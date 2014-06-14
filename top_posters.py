@@ -51,6 +51,9 @@ def update_counts():
     db = sqlite3.connect('top_posters.db')
     db.row_factory = sqlite3.Row
     with db:
-        for poster in get_top(50):
+        with open('schema.sql') as f:
+            db.cursor().executescript(f.read())
+
+        for poster in get_top(n=50):
             poster_data = (poster[0], poster[1]['count'])
             db.execute('insert into posters values (null, ?, ?)', poster_data)
