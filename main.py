@@ -51,14 +51,15 @@ def test_data():
                 db.execute('insert into posters values (null, "Joseph", 100)')
         
 @app.route('/')
-@app.route('/<range>/')
-def get_top_posters(range="month"):
-    if range not in ["month", "semester", "year", "all"]:
+@app.route('/<date_range>/')
+def get_top_posters(date_range="month"):
+    if date_range not in ["month", "semester", "year", "all_time"]:
         abort(404)
     db = get_db()
-    cur = db.execute('select id, name, count from posters order by id asc')
+    query = 'select id, name, count from ' + date_range + ' order by id asc'
+    cur = db.execute(query)
     posters = cur.fetchall()
-    return render_template('layout.html', posters=posters, active_page=range)
+    return render_template('layout.html', posters=posters, active_page=date_range)
 
 if __name__ == '__main__':
     app.run(debug=True)

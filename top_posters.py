@@ -53,6 +53,25 @@ def update_counts():
     with db:
         with open('schema.sql') as f:
             db.cursor().executescript(f.read())
-        for poster in get_top(n=50):
-            poster_data = (poster[0], poster[1]['count'])
-            db.execute('insert into posters values (null, ?, ?)', poster_data)
+
+        cur_date = datetime.now()
+        month_start = datetime(cur_date.year, cur_date.month, 1)
+        if cur_date.month < 9:
+            semester_start = datetime(cur_date.year, 1, 20)
+            year_start = datetime(cur_date.year - 1, 8, 20)
+        else:
+            semester_start = datetime(cur_date.year, 8, 20)
+            year_start = datetime(cur_date.year, 8, 20)
+
+        date_ranges = [
+                        ('month', month_start),
+                        ('semester', semester_start),
+                        ('year', year_start),
+                        ('all_time', datetime.min),
+                      ]
+
+        for table_name, start_date in date_ranges:
+            for poster in get_top(start_date=start_date, n=50):
+                poster_data = (poster[0], poster[1]['count'])
+                query = 'insert into ' + table_name + ' values (null, ?, ?)'
+                db.execute(query, poster_data)
