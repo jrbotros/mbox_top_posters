@@ -14,7 +14,7 @@ def post_counts(start_date, end_date):
     with open('latest.mbox', 'r') as archive:
         cur_sender = None
         cur_date = None
-        for line in archive.readlines():
+        for line in archive.xreadlines():
             parsed_sender = SENDER_REGEX.match(line)
             if parsed_sender:
                 cur_sender = parsed_sender
