@@ -77,3 +77,4 @@ def update_counts():
 
 if __name__ == '__main__':
     update_counts()
+

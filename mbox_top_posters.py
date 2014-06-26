@@ -62,4 +62,4 @@ def get_top_posters(date_range="month"):
     return render_template('layout.html', posters=posters, active_page=date_range)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
